@@ -16,8 +16,6 @@ public class Jump : MonoBehaviour
     private float coyoteTime;
     private float jumpBuffer;
 
-    private float defaultGravity;
-
     private Vector2 velocity;
 
     private Ground ground;
@@ -55,12 +53,12 @@ public class Jump : MonoBehaviour
         coyoteTime -= Time.fixedDeltaTime;
         jumpBuffer -= Time.fixedDeltaTime;
 
-        if(onGround)
-        { 
+        if (onGround)
+        {
             coyoteTime = maxCoyoteTime;
         }
 
-        if(jumpBuffer > 0)
+        if (jumpBuffer > 0)
         {
             TryJump();
         }
@@ -72,30 +70,30 @@ public class Jump : MonoBehaviour
 
     private void TryJump()
     {
-        if(onGround || coyoteTime > 0)
+        if (onGround || coyoteTime > 0)
         {
             velocity.y = maxJumpHeight;
-
             return;
         }
 
-        if(onWallLeft)
+        if (onWallLeft)
         {
             velocity = new Vector2(wallJumpPush, maxJumpHeight);
-
             return;
         }
-        else if(onWallRight)
+        else if (onWallRight)
         {
             velocity = new Vector2(-wallJumpPush, maxJumpHeight);
+            return;
         }
     }
 
+
     private void GravityHandler()
     {
-        if(onGround)
+        if (velocity.y > 0.001)
         {
-            body.gravityScale = defaultGravity;
+            body.gravityScale = upwardGravity;
             return;
         }
 
@@ -109,13 +107,13 @@ public class Jump : MonoBehaviour
         {
             body.gravityScale = upwardGravity;
 
-            return ;
+            return;
         }
         else if (velocity.y < 0.001)
         {
             body.gravityScale = downwardGravity;
 
-            return ;
+            return;
         }
-    }
+    }   
 }
